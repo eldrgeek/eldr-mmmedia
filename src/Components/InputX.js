@@ -3,7 +3,11 @@ import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Input } from "@material-ui/core";
 //import { Button } from "@material-ui/core";
-const useStyles = makeStyles(theme => ({}));
+const useStyles = makeStyles(theme => ({
+  input: {
+    margin: theme.spacing(1)
+  }
+}));
 
 export default p => {
   const props = {
@@ -28,7 +32,7 @@ export default p => {
       placeholder={props.placeholder}
       onChange={e => updateField(props.name, e.target.value)}
       // value={""}
-      className={props.classes}
+      className={props.classes.input}
     />
   );
 };

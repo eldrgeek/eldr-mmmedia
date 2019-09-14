@@ -1,22 +1,7 @@
 import React from "react";
-import { Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import FormX from "./Components/FormX";
-const useStyles = makeStyles(theme => ({
-  margin: {
-    margin: theme.spacing(1)
-  },
-  container: {
-    display: "flex",
-    flexWrap: "wrap"
-  },
-  input: {
-    margin: theme.spacing(1)
-  }
-}));
 
 export default function Register() {
-  const classes = useStyles();
   const [timing, setTiming] = React.useState(false);
 
   const submitRegtration = () => {
@@ -35,7 +20,9 @@ export default function Register() {
     { name: "location", placeholder: "Location" }
   ];
 
-  const onClick = () => {};
+  const onClick = () => {
+    console.log("cicked register", record);
+  };
 
   return (
     <React.Fragment>

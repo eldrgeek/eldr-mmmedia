@@ -18,7 +18,7 @@ export default p => {
       size="small"
       variant="contained"
       color="primary"
-      className={props.classes}
+      className={props.classes.margin}
       onClick={props.onClick}
     >
       {props.text}

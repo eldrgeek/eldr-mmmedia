@@ -6,7 +6,9 @@ import ButtonX from "./ButtonX";
 //import { Button } from "@material-ui/core";
 const useStyles = makeStyles(theme => ({
   centered: {
-    textAlign: "center"
+    textAlign: "center",
+    margin: "0 auto",
+    maxWidth: "600px"
   },
   container: {
     display: "flex",
@@ -19,30 +21,33 @@ export default p => {
   let props = {
     record: {},
     classes: useStyles(),
-    formTitle: "Form",
+    formTitle: "Formy",
     onClick: () => {
-      console.log(record);
+      console.log(props.record);
     },
     fields: [{ name: "name", placeholder: "place" }],
     ...p
   };
-  const classes = useStyles();
-  const record = {};
+  // const classes = useStyles();
+
   return (
     <React.Fragment>
-      <Typography className={classes.centered} variant="h4">
+      <Typography className={props.classes.centered} variant="h4">
         {props.formTitle}
       </Typography>
-      <div className={classes.container}>
-        {props.fields.map(field => (
+      <div className={props.classes.centered}>
+        {props.fields.map((field, id) => (
           <InputX
+            key={id}
             name={field.name}
             placeholder={field.placeholder}
             record={props.record}
           />
         ))}
       </div>
-      <ButtonX onClick={props.onClick} />
+      <div className={props.classes.centered}>
+        <ButtonX className={props.classes.centered} nClick={props.onClick} />
+      </div>
     </React.Fragment>
   );
 };
