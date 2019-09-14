@@ -1,8 +1,7 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import Input from "@material-ui/core/Input";
-import { Button } from "@material-ui/core";
+import FormX from "./Components/FormX";
 const useStyles = makeStyles(theme => ({
   margin: {
     margin: theme.spacing(1)
@@ -20,7 +19,6 @@ export default function Register() {
   const classes = useStyles();
   const [timing, setTiming] = React.useState(false);
 
-  const [record, setRecord] = React.useState({ title: "aaa" });
   const submitRegtration = () => {
     setTiming(true);
   };
@@ -28,59 +26,26 @@ export default function Register() {
     setTiming(false);
     updateField("duration", time);
   };
-  const updateField = (name, value) => {
-    console.log(name, value);
-    let newrecord = { ...record };
-    newrecord[name] = value;
-    setRecord(newrecord);
-  };
+  const record = {};
+
+  const fields = [
+    { name: "title", placeholder: "Title" },
+    { name: "url", placeholder: "URL" },
+    { name: "time", placeholder: "Time" },
+    { name: "location", placeholder: "Location" }
+  ];
+
+  const onClick = () => {};
+
   return (
     <React.Fragment>
-      <Typography variant="h4">Register new media</Typography>
-      <div className={classes.container}>
-        <Input
-          placeholder="Title"
-          value={record.title}
-          onChange={e => updateField("title", e.target.value)}
-          // value={""}
-          className={classes.input}
-        />
-        <Input
-          placeholder="URL"
-          onChange={e => updateField("url", e.target.value)}
-          className={classes.input}
-          inputProps={{
-            "aria-label": "description"
-          }}
-        />
-        <Input
-          placeholder="Time"
-          className={classes.input}
-          onChange={e => updateField("time", e.target.value)}
-          // disabled
-          inputProps={{
-            "aria-label": "description"
-          }}
-        />
-        <Input
-          placeholder="place"
-          onChange={e => updateField("place", e.target.value)}
-          className={classes.input}
-          inputProps={{
-            "aria-label": "description"
-          }}
-        />
-      </div>
-      <div>
-        <Button
-          size="small"
-          variant="contained"
-          color="primary"
-          onClick={submitRegtration}
-        >
-          Submit
-        </Button>
-      </div>
+      <FormX
+        formTitle="Register"
+        fields={fields}
+        onClick={onClick}
+        record={record}
+        onClick={onClick}
+      />
     </React.Fragment>
   );
 }
