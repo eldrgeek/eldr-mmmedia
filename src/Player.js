@@ -1,10 +1,8 @@
 import React from "react";
 import ReactPlayer from "react-player";
 
-const Player = () => {
-  return (
-    <ReactPlayer url="https://www.youtube.com/watch?v=Vr6NgrB-zHw" playing />
-  );
+const Player = ({ url }) => {
+  return <ReactPlayer url={url} playing />;
 };
 
 export default Player;

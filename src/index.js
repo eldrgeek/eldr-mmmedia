@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import Player from "./src/Player.js";
+import Player from "./Player.js";
 import { Button } from "@material-ui/core";
 import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import "./src/styles.css";
-import Register from "./src/Register";
-import Playback from "./src/Playback";
+import "./styles.css";
+import Register from "./Register";
+import Playback from "./Playback";
 
 const useStyles = makeStyles(theme => ({
   margin: {
