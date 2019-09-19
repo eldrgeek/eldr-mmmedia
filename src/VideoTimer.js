@@ -5,12 +5,17 @@ const Player = p => {
   const props = {
     returnResult: r => console.log("result", r),
     url: "https://www.youtube.com/watch?v=Vr6NgrB-zHw",
+    checkTime: true,
+    diag: false,
     ...p
   };
   const [playing, setPlaying] = React.useState(true);
   const [result, setResult] = React.useState({});
   //See if URL points to a valid site
   const { url, returnResult } = props;
+  if (!props.checkTime) {
+    return <React.Fragment>not checking</React.Fragment>;
+  }
   if (!ReactPlayer.canPlay(url)) {
     returnResult({ playable: false });
     return JSON.stringify(result);
@@ -35,8 +40,9 @@ const Player = p => {
     console.log("isPlaying", playing);
     setPlaying(false);
     console.log("prpgress", p);
-    setResult({ playable: true, duration: p.playedSeconds / FRACTION });
-    returnResult(result);
+    const progress = { playable: true, duration: p.playedSeconds / FRACTION };
+    setResult(progress);
+    returnResult(progress);
   };
   const isError = () => {
     setPlaying(false);
@@ -44,21 +50,22 @@ const Player = p => {
 
   return (
     <React.Fragment>
-      Result{JSON.stringify(result)}
-      <ReactPlayer
-        ref={setRef}
-        url={url}
-        controls={true}
-        onError={isError}
-        onReady={movePlayer}
-        onProgress={getProgress}
-        // playing={playing}
-        // onReady={getDuration}
-        // onProgress={getDuration}
-        // volume={0}
-        muted={true}
-      />
-      ;
+      {props.diag ? "Result " + JSON.stringify(result) : ""}
+      <div style={{ display: "none" }}>
+        <ReactPlayer
+          ref={setRef}
+          url={url}
+          controls={true}
+          onError={isError}
+          onReady={movePlayer}
+          onProgress={getProgress}
+          // playing={playing}
+          // onReady={getDuration}
+          // onProgress={getDuration}
+          // volume={0}
+          muted={true}
+        />
+      </div>
     </React.Fragment>
   );
 };
