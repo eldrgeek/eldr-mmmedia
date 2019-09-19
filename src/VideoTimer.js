@@ -1,37 +1,58 @@
 import React from "react";
 import ReactPlayer from "react-player";
 
-const Player = ({ url, returnTime }) => {
-  if (!url) url = "https://www.youtube.com/watch?v=Vr6NgrB-zHw";
+const Player = p => {
+  const props = {
+    returnResult: r => console.log("result", r),
+    url: "https://www.youtube.com/watch?v=Vr6NgrB-zHw",
+    ...p
+  };
+  const [playing, setPlaying] = React.useState(true);
+  const [result, setResult] = React.useState({});
+  //See if URL points to a valid site
+  const { url, returnResult } = props;
+  if (!ReactPlayer.canPlay(url)) {
+    returnResult({ playable: false });
+    return JSON.stringify(result);
+  }
+  // if it points to a valid site then we need to play it
 
-  let player;
-  const [duration, setDuration] = React.useState("unknown");
+  // const [theUrl,setTheUrl] = React.useState(url)
   const FRACTION = 0.1;
+
+  //get a ref to the player so we can control it
+  let player;
   const setRef = element => {
-    window.xxx = element;
-    console.log("ref", element);
     player = element;
   };
+
+  //if the player is ready, seek
   const movePlayer = () => {
     console.log("seeking");
     player.seekTo(FRACTION, "fraction");
   };
   const getProgress = p => {
+    console.log("isPlaying", playing);
+    setPlaying(false);
     console.log("prpgress", p);
-    if (returnTime) returnTime(p.playedSeconds / FRACTION);
+    setResult({ playable: true, duration: p.playedSeconds / FRACTION });
+    returnResult(result);
+  };
+  const isError = () => {
+    setPlaying(false);
   };
 
   return (
     <React.Fragment>
-      Duration {duration}
+      Result{JSON.stringify(result)}
       <ReactPlayer
         ref={setRef}
         url={url}
         controls={true}
-        onError={() => console.log("error")}
+        onError={isError}
         onReady={movePlayer}
         onProgress={getProgress}
-        // playing
+        // playing={playing}
         // onReady={getDuration}
         // onProgress={getDuration}
         // volume={0}
