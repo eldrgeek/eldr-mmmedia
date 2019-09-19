@@ -1,5 +1,6 @@
 import React from "react";
 import FormX from "./Components/FormX";
+import { addToCollection } from "./FireStore";
 
 export default function Register() {
   const [timing, setTiming] = React.useState(false);
@@ -21,6 +22,7 @@ export default function Register() {
   ];
 
   const onClick = () => {
+    addToCollection("media", record);
     console.log("cicked register", record);
   };
 
@@ -31,7 +33,7 @@ export default function Register() {
         fields={fields}
         onClick={onClick}
         record={record}
-        onClick={onClick}
+        button="add media"
       />
     </React.Fragment>
   );

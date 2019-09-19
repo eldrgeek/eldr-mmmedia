@@ -46,7 +46,11 @@ export default p => {
         ))}
       </div>
       <div className={props.classes.centered}>
-        <ButtonX className={props.classes.centered} nClick={props.onClick} />
+        <ButtonX
+          text={props.button}
+          className={props.classes.centered}
+          onClick={props.onClick}
+        />
       </div>
     </React.Fragment>
   );
