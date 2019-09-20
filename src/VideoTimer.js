@@ -1,12 +1,13 @@
 import React from "react";
 import ReactPlayer from "react-player";
+import { formatRelativeWithOptions } from "date-fns/esm/fp";
 
 const Player = p => {
   const props = {
     returnResult: r => console.log("result", r),
     url: "https://www.youtube.com/watch?v=Vr6NgrB-zHw",
-    checkTime: true,
-    diag: false,
+    checkTime: false,
+    diag: formatRelativeWithOptions,
     ...p
   };
   const [playing, setPlaying] = React.useState(true);
@@ -14,7 +15,11 @@ const Player = p => {
   //See if URL points to a valid site
   const { url, returnResult } = props;
   if (!props.checkTime) {
-    return <React.Fragment>not checking</React.Fragment>;
+    if (props.diag) {
+      return <React.Fragment>not checking</React.Fragment>;
+    } else {
+      return "";
+    }
   }
   if (!ReactPlayer.canPlay(url)) {
     returnResult({ playable: false });
