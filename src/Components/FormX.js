@@ -35,13 +35,14 @@ export default p => {
   };
   // const classes = useStyles();
   const clearRefs = () => {
-    console.log("clear refs");
+    // console.log("clear refs");
     props.fields.map(field => {
       const ref = refs[field.name];
       if (ref) {
-        console.log("clear", field.name);
+        // console.log("clear", field.name);
         ref.value = "";
       }
+      return null;
     });
   };
 

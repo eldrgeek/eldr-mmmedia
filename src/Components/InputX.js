@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField } from "@material-ui/core";
-import { Button } from "@material-ui/core";
+// import { Button } from "@material-ui/core";
 //import { Button } from "@material-ui/core";
 const useStyles = makeStyles(theme => ({
   input: {
@@ -25,20 +25,19 @@ export default p => {
   };
 
   const updateField = (name, value) => {
-    console.log(name, value);
+    // console.log(name, value);
     props.record[name] = value;
 
     // setRecord(newrecord);
     // console.log(props.record)
   };
-  let input;
   const handleClear = () => {
     // input.value = ""
-    console.log("clear");
+    // console.log("clear");
     props.refs[props.name].value = "";
     // props.refs[props.name] = ""
   };
-  console.log("prop", props.record[props.name]);
+  // console.log("prop", props.record[props.name]);
 
   return (
     <React.Fragment>
