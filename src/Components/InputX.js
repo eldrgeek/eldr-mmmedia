@@ -23,21 +23,15 @@ export default p => {
     text: "testing",
     ...p
   };
-
+  const [value, setValue] = React.useState("");
+  props.record[props.name] = value;
   const updateField = (name, value) => {
     // console.log(name, value);
     props.record[name] = value;
-
+    setValue(value);
     // setRecord(newrecord);
     // console.log(props.record)
   };
-  const handleClear = () => {
-    // input.value = ""
-    // console.log("clear");
-    props.refs[props.name].value = "";
-    // props.refs[props.name] = ""
-  };
-  // console.log("prop", props.record[props.name]);
 
   return (
     <React.Fragment>

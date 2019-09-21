@@ -3,43 +3,39 @@ import React from "react";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker
+  KeyboardDateTimePicker
 } from "@material-ui/pickers";
 
 export default function MaterialUIPickers(props) {
   // The first commit of Material-UI
   const [selectedDate, setSelectedDate] = React.useState(new Date());
 
+  const updateRecord = date => {
+    if (props.record) {
+      props.record[props.name] = date;
+    }
+  };
+  updateRecord(selectedDate);
   function handleDateChange(date) {
     setSelectedDate(date);
+    updateRecord(date);
   }
   let key = props.key || "1";
-
+  const handleError = error => {
+    console.log("DateX error", error);
+  };
   return (
-    <MuiPickersUtilsProvider key={key} utils={DateFnsUtils}>
-      <KeyboardDatePicker
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <KeyboardDateTimePicker
+        value={selectedDate}
+        onChange={handleDateChange}
         margin="normal"
         id="date-picker-dialog"
-        label="Choose date"
-        format="MM/dd/yyyy"
-        style={{ width: "150px" }}
-        value={selectedDate}
-        onChange={handleDateChange}
-        KeyboardButtonProps={{
-          "aria-label": "change date"
-        }}
-      />
-      <KeyboardTimePicker
-        margin="normal"
-        id="time-picker"
-        label="Choose time"
-        style={{ width: "150px" }}
-        value={selectedDate}
-        onChange={handleDateChange}
-        KeyboardButtonProps={{
-          "aria-label": "change time"
-        }}
+        format="MM/dd/yyyy HH:mm"
+        style={{ width: "200px" }}
+        label="Choose date and time"
+        onError={handleError}
+        onAccept={handleDateChange}
       />
     </MuiPickersUtilsProvider>
   );

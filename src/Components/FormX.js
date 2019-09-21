@@ -35,11 +35,9 @@ export default p => {
   };
   // const classes = useStyles();
   const clearRefs = () => {
-    // console.log("clear refs");
     props.fields.map(field => {
       const ref = refs[field.name];
       if (ref) {
-        // console.log("clear", field.name);
         ref.value = "";
       }
       return null;
@@ -63,7 +61,7 @@ export default p => {
                 getRef={(name, ref) => (refs[name] = ref)}
               />
             );
-          return <DateX key={id} />;
+          return <DateX name={props.name} record={props.record} key={id} />;
         })}
         )}
       </div>
