@@ -3,7 +3,8 @@ import FormX from "./Components/FormX";
 import Snackbar from "./Components/Snackbar";
 import { addToCollection } from "./FireStore";
 import VideoTimer from "./VideoTimer";
-import { getYear, getMonth, getDay, getHour } from "date-fns";
+// import d, { getYear, getMonth, getDay, getHour } from "date-fns";
+import { getYear, getMonth, getDate, getHours } from "date-fns";
 
 let clearRefs = () => console.log("old proc");
 export default function Register() {
@@ -17,8 +18,8 @@ export default function Register() {
   const [bucket, setBucket] = React.useState("no bucket");
   const fields = [
     { name: "title", placeholder: "Title" },
-    { name: "url", placeholder: "URL" },
     { name: "location", placeholder: "Location" },
+    { name: "url", placeholder: "URL" },
     { name: "time", placeholder: "Time", type: "date" }
   ];
 
@@ -27,7 +28,6 @@ export default function Register() {
     // console.log("result", result);
 
     if (!result.playable) {
-      setStatus("Error");
       setSnackbar({
         variant: "error",
         message: "Media is not playable",
@@ -35,14 +35,10 @@ export default function Register() {
         timeout: 2000
       });
       setOpen(true);
-      console.log("DATE", JSON.stringify(record));
-      // setBucket(
-      //   new Date(getYear(date), getMonth(date), getDay(date), getHour(date))
-      // );
     } else {
       const date = record.time;
       setBucket(
-        new Date(getYear(date), getMonth(date), getDay(date), getHour(date))
+        new Date(getYear(date), getMonth(date), getDate(date), getHours(date))
       );
       addToCollection("media", record);
       setRecord({});
@@ -79,8 +75,10 @@ export default function Register() {
         record={record}
         button="add media"
       />
-      {status}
-      <Snackbar open={open} />
+      {/* {status} */}
+      <br />
+      {/* {bucket.toString()} */}
+      {!open ? "" : <Snackbar {...snackbar} />}
       <VideoTimer
         url={record.url} //{record.url}
         checkTime={checkTime}

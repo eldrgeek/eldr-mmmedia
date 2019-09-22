@@ -16,7 +16,7 @@ const Player = p => {
   const { url, returnResult } = props;
   if (!props.checkTime) {
     if (props.diag) {
-      return <React.Fragment>not checking</React.Fragment>;
+      return <React.Fragment />;
     } else {
       return "";
     }

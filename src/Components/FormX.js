@@ -61,7 +61,7 @@ export default p => {
                 getRef={(name, ref) => (refs[name] = ref)}
               />
             );
-          return <DateX name={props.name} record={props.record} key={id} />;
+          return <DateX name={field.name} record={props.record} key={id} />;
         })}
         )}
       </div>
