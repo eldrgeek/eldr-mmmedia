@@ -24,14 +24,16 @@ try {
 }
 const db = firestore();
 
-const addToCollection = (collection, entry) => {
-  db.collection(collection)
+const addToCollection = async (collection, entry) => {
+  return db
+    .collection(collection)
     .add(entry)
     .then(function(docRef) {
       console.log("Document written with ID: ", docRef.id);
+      return docRef;
     })
     .catch(function(error) {
       console.error("Error adding document: ", error);
     });
 };
-export { addToCollection, db };
+export { firebase, addToCollection, db };
