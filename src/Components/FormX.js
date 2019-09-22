@@ -24,6 +24,7 @@ export default p => {
     record: {},
     classes: useStyles(),
     formTitle: "Formy",
+    button: "fake",
     onClick: () => {
       console.log(props.record);
     },
@@ -63,7 +64,6 @@ export default p => {
             );
           return <DateX name={field.name} record={props.record} key={id} />;
         })}
-        )}
       </div>
       <div className={props.classes.centered}>
         <ButtonX

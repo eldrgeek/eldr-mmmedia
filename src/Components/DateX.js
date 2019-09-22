@@ -25,18 +25,20 @@ export default function MaterialUIPickers(props) {
     console.log("DateX error", error);
   };
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <KeyboardDateTimePicker
-        value={selectedDate}
-        onChange={handleDateChange}
-        margin="normal"
-        id="date-picker-dialog"
-        format="MM/dd/yyyy HH:mm"
-        style={{ width: "200px" }}
-        label="Choose date and time"
-        onError={handleError}
-        onAccept={handleDateChange}
-      />
-    </MuiPickersUtilsProvider>
+    <div key={key}>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <KeyboardDateTimePicker
+          value={selectedDate}
+          onChange={handleDateChange}
+          margin="normal"
+          id="date-picker-dialog"
+          format="MM/dd/yyyy HH:mm"
+          style={{ width: "200px" }}
+          label="Choose date and time"
+          onError={handleError}
+          onAccept={handleDateChange}
+        />
+      </MuiPickersUtilsProvider>
+    </div>
   );
 }
