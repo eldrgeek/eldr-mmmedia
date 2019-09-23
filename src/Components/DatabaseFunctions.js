@@ -1,8 +1,9 @@
 /*
-This contains a bunch of database functoions
+This contains a database functoions to add a clip
+to the database and to the relevant buckets
 */
 import React from "react";
-import { Button, DialogContentText } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import {
   addSeconds,
   addMinutes,
@@ -16,14 +17,21 @@ import {
   isWithinInterval
 } from "date-fns";
 import { firebase, db, addToCollection } from "../FireStore";
+
+//given a DateTime, get the time of the hour
+//in which that time appears
 const getBucketStart = time => {
   return new Date(getYear(time), getMonth(time), getDate(time), getHours(time));
 };
+
+//Given a time compose a string to use as the key for the bucket
 const composeBucketString = time => {
   return `${getYear(time)} ${getMonth(time)} ${getDate(time)} ${getHours(
     time
   )}`;
 };
+
+//given a clip,
 const addToBucket = async (clip, diag) => {
   //adds references to document in the propoer time buckets
   const time = clip.time;
@@ -181,4 +189,4 @@ const getClipsForTime = async (refTime, diag) => {
     resolvedClips.map(clip => JSON.stringify(clip.data()))
   );
 };
-// export { addToBucket };
+export { addToBucket, getClipsForBucket };
