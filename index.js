@@ -6,7 +6,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import "./src/styles.css";
 import Register from "./src/Register";
 import Playback from "./src/Playback";
-
+import Login from "./src/Login";
+import Record from "./src/Record";
+import Snackbar from "./src/Components/Snackbar";
 const useStyles = makeStyles(theme => ({
   margin: {
     margin: theme.spacing(1)
@@ -18,46 +20,46 @@ const useStyles = makeStyles(theme => ({
 
 function App() {
   const classes = useStyles();
-  const [register, setRegister] = useState(false);
-  const [playback, setPlayback] = useState(false);
-  const openRegister = () => {
-    if (!register) {
-      setRegister(true);
-      setPlayback(false);
-    } else setRegister(false);
+  const [form, setForm] = React.useState("");
+
+  const pages = {
+    login: { component: <Login /> },
+    register: { component: <Register /> },
+    record: { component: <Record /> },
+    play: { component: <Playback /> }
   };
-  const openPlayback = () => {
-    if (!playback) {
-      setRegister(false);
-      setPlayback(true);
-    } else setPlayback(false);
+
+  const changeForm = newForm => {
+    if (form === newForm) {
+      setForm("");
+    } else {
+      setForm(newForm);
+    }
   };
+
   return (
     <div className="App">
       <Typography variant="h4">MMMedia</Typography>
-      <Button
-        className={classes.margin}
-        size="small"
-        variant="contained"
-        color="primary"
-        onClick={openRegister}
-      >
-        {" "}
-        Register{" "}
-      </Button>
+      {Object.keys(pages).map((key, i) => {
+        return (
+          <Button
+            key={i}
+            className={classes.margin}
+            size="small"
+            variant="contained"
+            color="primary"
+            onClick={() => changeForm(key)}
+          >
+            {key}
+          </Button>
+        );
+      })}
+      {Object.keys(pages).map((key, i) => {
+        return <div> {key === form ? pages[key].component : ""} </div>;
+      })}
 
-      <Button
-        className={classes.margin}
-        size="small"
-        variant="contained"
-        color="primary"
-        onClick={openPlayback}
-      >
-        Playback
-      </Button>
-      {register ? <Register /> : ""}
-      {playback ? <Playback /> : ""}
       {/* <Player /> */}
+      {/* {!open ? "" : <Snackbar {...snackbar} />} */}
     </div>
   );
 }
