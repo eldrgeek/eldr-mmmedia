@@ -3,6 +3,7 @@ This contains a database functoions to add a clip
 to the database and to the relevant buckets
 */
 import React from "react";
+import testData from "../TestData";
 import { Button } from "@material-ui/core";
 import {
   addSeconds,
@@ -44,14 +45,14 @@ const addToBucket = async (clip, diag) => {
   const clipRef = await addToCollection("clips", clip);
 
   const mergeIntoBucket = async time => {
-    console.log("merge");
+    // console.log("merge");
     const ref = await db.collection("buckets").doc(composeBucketString(time));
-    console.log(ref);
+    // console.log(ref);
     await ref
       .get()
       .then(function(doc) {
         if (!doc.exists) {
-          console.log("DOc set");
+          // console.log("DOc set");
           ref.set({ clips: [clipRef] });
         } else {
           ref
@@ -59,9 +60,9 @@ const addToBucket = async (clip, diag) => {
               clips: firebase.firestore.FieldValue.arrayUnion(clipRef)
             })
             .then(function() {
-              console.log("written");
+              // console.log("written");
               diag("written");
-              console.log("Bucket written with ID: ");
+              // console.log("Bucket written with ID: ");
               return true;
             })
             .catch(function(error) {
@@ -94,18 +95,17 @@ let tried = false;
 
 export default () => {
   const [status, setStatus] = React.useState("no state");
-  console.log("init");
 
-  const add = () =>
-    addToBucket(
-      {
-        time: new Date(2018, 1, 1, 1, 0, 10),
-        duration: 60 * 60 - 10,
-        title: "The thing",
-        location: "Bpston"
-      },
-      setStatus
-    );
+  const add = () => console.log("addint", JSON.stringify(testData));
+  // addToBucket(
+  //   {
+  //     time: new Date(2018, 1, 1, 1, 0, 10),
+  //     duration: 60 * 60 - 10,
+  //     title: "The thing",
+  //     location: "Bpston"
+  //   },
+  //   setStatus
+  // );
 
   const get = () => getClipsForTime(new Date(2018, 1, 1, 1), setStatus);
   if (!tried) setTimeout(get, 1100);
@@ -145,11 +145,11 @@ const getClipsForBucket = async (time, diag) => {
   return new Promise((resolve, reject) => {
     docRef.get().then(function(doc) {
       if (doc.exists) {
-        console.log("Document data:", doc.data());
+        // console.log("Document data:", doc.data());
         resolve(doc.data().clips);
       } else {
         // doc.data() will be undefined in this case
-        console.log("No such document!");
+        // console.log("No such document!");
         resolve([]);
       }
     });
@@ -174,8 +174,7 @@ const getClipsForTime = async (refTime, diag) => {
               end: addSeconds(timeDate, duration)
             })
           )
-            console.log("qual resoov");
-          resolve(doc);
+            resolve(doc);
         } else {
           console.log("not");
           resolve(undefined);
