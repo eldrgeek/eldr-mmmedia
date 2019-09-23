@@ -83,13 +83,16 @@ const addToBucket = async (clip, diag) => {
   }
 };
 let tried = false;
+
 export default () => {
   const [status, setStatus] = React.useState("no state");
+  console.log("init");
+
   const add = () =>
     addToBucket(
       {
-        time: new Date(2018, 1, 1, 1),
-        duration: 60 * 60 - 1,
+        time: new Date(2018, 1, 1, 1, 0, 10),
+        duration: 60 * 60 - 10,
         title: "The thing",
         location: "Bpston"
       },
@@ -120,12 +123,13 @@ export default () => {
   };
   return (
     <React.Fragment>
+      trst
       {displayStatus(status)}
+      <Button onClick={get}>Get</Button>
       <Button onClick={add}>Add</Button>
     </React.Fragment>
   );
 };
-export { addToBucket };
 
 const getClipsForBucket = async (time, diag) => {
   const bucketString = composeBucketString(getBucketStart(time));
@@ -146,24 +150,35 @@ const getClipsForBucket = async (time, diag) => {
   });
 };
 const getClipsForTime = async (refTime, diag) => {
-  await getClipsForBucket(refTime, diag).then(async clips => {
-    const qualifyingClips = await clips.filter(async clip => {
-      const clipData = clip.get().then(doc => {
-        console.log("here");
+  const clips = await getClipsForBucket(refTime, diag);
+  const qualifingClips = clips.map(clip => {
+    return new Promise((resolve, reject) => {
+      clip.get().then(doc => {
         if (doc.exists) {
-          console.log("data", doc.data());
+          // console.log("data", doc.data());
           const { time, duration } = doc.data();
-          return isWithinInterval(refTime, {
-            start: time,
-            end: addSeconds(time, duration)
-          });
+          const timeDate = time.toDate();
+          // console.log({ refTime, timeDate, duration });
+          // console.log("addseconds", addSeconds(time.toDate(), duration));
+          if (
+            isWithinInterval(refTime, {
+              start: timeDate,
+              end: addSeconds(timeDate, duration)
+            })
+          )
+            console.log("qual resoov");
+          resolve(doc);
         } else {
           console.log("not");
-          return false;
+          resolve(undefined);
         }
       });
     });
-    console.log("quals", qualifyingClips);
-    return qualifyingClips;
   });
+  let resolvedClips = await Promise.all(qualifingClips);
+  console.log(
+    "resolved list",
+    resolvedClips.map(clip => JSON.stringify(clip.data()))
+  );
 };
+// export { addToBucket };
