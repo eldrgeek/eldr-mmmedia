@@ -35,23 +35,35 @@ const addToBucket = async (clip, diag) => {
   const clipRef = await addToCollection("clips", clip);
 
   const mergeIntoBucket = async time => {
-    const ref = db.collection("buckets").doc(composeBucketString(time));
+    console.log("merge");
+    const ref = await db.collection("buckets").doc(composeBucketString(time));
     console.log(ref);
-    return ref
-      .update({
-        id: "this",
-        clips: firebase.firestore.FieldValue.arrayUnion(clipRef)
+    await ref
+      .get()
+      .then(function(doc) {
+        if (!doc.exists) {
+          console.log("DOc set");
+          ref.set({ clips: [clipRef] });
+        } else {
+          ref
+            .update({
+              clips: firebase.firestore.FieldValue.arrayUnion(clipRef)
+            })
+            .then(function() {
+              console.log("written");
+              diag("written");
+              console.log("Bucket written with ID: ");
+              return true;
+            })
+            .catch(function(error) {
+              console.log("error" + error);
+              diag("Error adding to bucket: " + error);
+              return false;
+            });
+        }
       })
-      .then(function() {
-        console.log("written");
-        diag("written");
-        console.log("Bucket written with ID: ");
-        return true;
-      })
-      .catch(function(error) {
-        console.log("error", error);
-        diag("Error adding to bucket: " + error, error);
-        return false;
+      .catch(e => {
+        console.log("error2 " + e);
       });
   };
   //now compute whether the document overflows the first bucket
@@ -84,7 +96,7 @@ export default () => {
     );
 
   const get = () => getClipsForTime(new Date(2018, 1, 1, 1), setStatus);
-  if (!tried) setTimeout(get, 1100);
+  if (!tried) setTimeout(add, 1100);
 
   tried = true;
   const displayStatus = status => {
