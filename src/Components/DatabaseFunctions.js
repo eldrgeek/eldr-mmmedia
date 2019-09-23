@@ -12,7 +12,8 @@ import {
   getDate,
   getHours,
   differenceInHours,
-  differenceInMinutes
+  differenceInMinutes,
+  isWithinInterval
 } from "date-fns";
 import { firebase, db, addToCollection } from "../FireStore";
 const getBucketStart = time => {
@@ -96,7 +97,7 @@ export default () => {
     );
 
   const get = () => getClipsForTime(new Date(2018, 1, 1, 1), setStatus);
-  if (!tried) setTimeout(add, 1100);
+  if (!tried) setTimeout(get, 1100);
 
   tried = true;
   const displayStatus = status => {
@@ -126,22 +127,43 @@ export default () => {
 };
 export { addToBucket };
 
-const getClipsForTime = async (time, diag) => {
+const getClipsForBucket = async (time, diag) => {
   const bucketString = composeBucketString(getBucketStart(time));
   var docRef = db.collection("buckets").doc(bucketString);
-  docRef
-    .get()
-    .then(function(doc) {
+  return new Promise((resolve, reject) => {
+    docRef.get().then(function(doc) {
       if (doc.exists) {
         console.log("Document data:", doc.data());
-        return doc.data().clips;
+        resolve(doc.data().clips);
       } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");
-        return [];
+        resolve([]);
       }
-    })
-    .catch(function(error) {
-      console.log("Error getting document:", error);
     });
+  }).catch(function(error) {
+    console.log("Error getting document:" + error);
+  });
+};
+const getClipsForTime = async (refTime, diag) => {
+  await getClipsForBucket(refTime, diag).then(async clips => {
+    const qualifyingClips = await clips.filter(async clip => {
+      const clipData = clip.get().then(doc => {
+        console.log("here");
+        if (doc.exists) {
+          console.log("data", doc.data());
+          const { time, duration } = doc.data();
+          return isWithinInterval(refTime, {
+            start: time,
+            end: addSeconds(time, duration)
+          });
+        } else {
+          console.log("not");
+          return false;
+        }
+      });
+    });
+    console.log("quals", qualifyingClips);
+    return qualifyingClips;
+  });
 };
