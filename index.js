@@ -46,8 +46,6 @@ function MainApp() {
 
   return (
     <div className="App">
-      <Typography variant="h4">MMMedia</Typography>
-      <Typography> "{user}"</Typography>
       {Object.keys(pages).map((key, i) => {
         return (
           <Button
@@ -66,7 +64,14 @@ function MainApp() {
       {Object.keys(pages).map((key, i) => {
         return <div> {key === form ? pages[key].component : ""} </div>;
       })}
-
+      {form === "" ? (
+        <div>
+          <Typography variant="h4">MMMedia</Typography>
+          <Typography> "{user}"</Typography>
+        </div>
+      ) : (
+        ""
+      )}
       {/* <Player /> */}
       {/* {!open ? "" : <Snackbar {...snackbar} />} */}
     </div>
