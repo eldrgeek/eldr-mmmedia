@@ -69,7 +69,7 @@ export default p => {
         <ButtonX
           text={props.button}
           className={props.classes.centered}
-          onClick={() => props.onClick(clearRefs)}
+          onClick={() => props.onClick(clearRefs, refs)}
         />
       </div>
     </React.Fragment>

@@ -9,6 +9,9 @@ import Playback from "./src/Playback";
 import Login from "./src/Login";
 import Record from "./src/Record";
 import Snackbar from "./src/Components/Snackbar";
+
+import StoreProvider from "../src/redux/storage";
+import useLocalStorage from "react-use-localstorage";
 const useStyles = makeStyles(theme => ({
   margin: {
     margin: theme.spacing(1)
@@ -18,10 +21,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function App() {
+function MainApp() {
   const classes = useStyles();
   const [form, setForm] = React.useState("");
-
+  const [user, setUser] = useLocalStorage(
+    "userName",
+    window.localStorage.getItem("userName") || "none"
+  );
   const pages = {
     login: { component: <Login /> },
     register: { component: <Register /> },
@@ -32,6 +38,7 @@ function App() {
   const changeForm = newForm => {
     if (form === newForm) {
       setForm("");
+      setUser(window.localStorage.getItem("userName") || "none");
     } else {
       setForm(newForm);
     }
@@ -40,11 +47,13 @@ function App() {
   return (
     <div className="App">
       <Typography variant="h4">MMMedia</Typography>
+      <Typography> "{user}"</Typography>
       {Object.keys(pages).map((key, i) => {
         return (
           <Button
             key={i}
             className={classes.margin}
+            disabled={user === "none" && key !== "login"}
             size="small"
             variant="contained"
             color="primary"
@@ -63,6 +72,15 @@ function App() {
     </div>
   );
 }
+
+const App = () => {
+  console.log(StoreProvider);
+  return (
+    <StoreProvider>
+      <MainApp />
+    </StoreProvider>
+  );
+};
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(<App />, rootElement);
