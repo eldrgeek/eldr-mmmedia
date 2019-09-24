@@ -8,6 +8,7 @@ import Register from "./src/Register";
 import Playback from "./src/Playback";
 import Login from "./src/Login";
 import Record from "./src/Record";
+import AppBar from "./src/Components/MMMAppBar";
 import Snackbar from "./src/Components/Snackbar";
 
 import StoreProvider from "../src/redux/storage";
@@ -46,6 +47,7 @@ function MainApp() {
 
   return (
     <div className="App">
+      <AppBar />
       {Object.keys(pages).map((key, i) => {
         return (
           <Button
