@@ -47,22 +47,8 @@ function MainApp() {
 
   return (
     <div className="App">
-      <AppBar />
-      {Object.keys(pages).map((key, i) => {
-        return (
-          <Button
-            key={i}
-            className={classes.margin}
-            disabled={user === "none" && key !== "login"}
-            size="small"
-            variant="contained"
-            color="primary"
-            onClick={() => changeForm(key)}
-          >
-            {key}
-          </Button>
-        );
-      })}
+      <AppBar propthing="prop" changeForm={changeForm} />
+
       {Object.keys(pages).map((key, i) => {
         return <div> {key === form ? pages[key].component : ""} </div>;
       })}
