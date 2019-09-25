@@ -1,18 +1,6 @@
 import { combineReducers } from "redux";
+import user from "./user";
 
-// export default combineReducers({
-//   // todos,
-//   // visibilityFilter
-// })
-const initialState = {
-  user: "none"
-};
-
-export default (state = initialState, action) => {
-  switch (action.type) {
-    case "SET_USER":
-      return { ...state, user: action.user };
-    default:
-      return state;
-  }
-};
+export default combineReducers({
+  user
+});

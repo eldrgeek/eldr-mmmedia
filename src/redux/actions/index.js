@@ -1,6 +1,5 @@
-const setUser = user => ({
-  type: "SET_USER",
+import { SET_USER } from "./ActionTypes";
+export const setUser = user => ({
+  type: SET_USER,
   id: user
 });
-
-export { setUser };

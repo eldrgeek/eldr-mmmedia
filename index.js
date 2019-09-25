@@ -10,7 +10,7 @@ import Login from "./src/Login";
 import Record from "./src/Record";
 import AppBar from "./src/Components/MMMAppBar";
 import Snackbar from "./src/Components/Snackbar";
-
+import { UserName } from "./src/Components/UserName";
 import StoreProvider from "../src/redux/storage";
 import useLocalStorage from "react-use-localstorage";
 const useStyles = makeStyles(theme => ({
@@ -55,7 +55,7 @@ function MainApp() {
       {form === "" ? (
         <div>
           <Typography variant="h4">MMMedia</Typography>
-          <Typography> "{user}"</Typography>
+          <UserName />
         </div>
       ) : (
         ""
