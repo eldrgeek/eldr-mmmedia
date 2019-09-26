@@ -29,12 +29,6 @@ function MainApp() {
     "userName",
     window.localStorage.getItem("userName") || "none"
   );
-  const pages = {
-    login: { component: <Login /> },
-    register: { component: <Register /> },
-    record: { component: <Record /> },
-    play: { component: <Playback /> }
-  };
 
   const changeForm = newForm => {
     if (form === newForm) {
@@ -43,6 +37,13 @@ function MainApp() {
     } else {
       setForm(newForm);
     }
+  };
+
+  const pages = {
+    login: { component: <Login /> },
+    register: { component: <Register /> },
+    record: { component: <Record /> },
+    play: { component: <Playback /> }
   };
 
   return (

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import FormX from "./Components/FormX";
 import StorageProvider from "../src/redux/storage/index";
 import Snackbar from "./Components/Snackbar";
-import { makeAction } from "./redux/reducers/user";
+import { makeAction } from "./redux/reducers";
 import { addToCollection } from "./FireStore";
 import useLocalStorage from "react-use-localstorage";
 import UserName from "./Components/UserName";

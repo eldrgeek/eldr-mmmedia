@@ -3,7 +3,7 @@ const initialState = {
   songs: 10
 };
 
-const actionDefinitions = {
+const defs = {
   SET_USER: {
     params: "name",
     reducer: (state, action) => ({ ...state, name: action.name })
@@ -13,22 +13,4 @@ const actionDefinitions = {
   }
 };
 
-const rootReducer = (state = initialState, action) => {
-  const definition = actionDefinitions[action.type];
-  if (definition) {
-    return definition.reducer(state, action);
-  } else {
-    return state;
-  }
-};
-
-export default rootReducer;
-
-export const makeAction = (name, params) => {
-  const action = actionDefinitions[name];
-  if (action) {
-    return { type: name, ...params };
-  } else {
-    console.log("No action " + name);
-  }
-};
+export default { initialState, defs };
