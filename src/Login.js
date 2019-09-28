@@ -63,10 +63,14 @@ export const Login = connect(
   mapDispatchToProps
 )(LoginImpl);
 
-const ProvidedElement = () => (
+let ProvidedElement = () => (
   <StorageProvider>
     <Login a={10} />
   </StorageProvider>
 );
+
+let Make = e => () => <StorageProvider>{e}</StorageProvider>;
+
+ProvidedElement = Make(<Login a={10} />);
 
 export default ProvidedElement;
