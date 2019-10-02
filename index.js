@@ -43,7 +43,7 @@ function MainApp() {
   };
 
   const pages = {
-    login: { component: <Login /> },
+    login: { component: <Login setForm={setForm} /> },
     register: { component: <Register /> },
     record: { component: <Record /> },
     play: { component: <Playback /> }

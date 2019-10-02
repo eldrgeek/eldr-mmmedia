@@ -34,6 +34,8 @@ function LoginImpl(p) {
   };
   const onClick = (refProc, refs) => {
     p.setUser(refs.user.value);
+    console.log("Set pqge", p.setForm);
+    if (p.setForm) p.setForm("");
   };
   return (
     <React.Fragment>
@@ -63,14 +65,14 @@ export const Login = connect(
   mapDispatchToProps
 )(LoginImpl);
 
-let ProvidedElement = () => (
+let ProvidedElement = p => (
   <StorageProvider>
-    <Login a={10} />
+    <Login {...p} a={10} />
   </StorageProvider>
 );
 
-let Make = e => () => <StorageProvider>{e}</StorageProvider>;
+// let Make = (e,props) => () => <StorageProvider >{e}</StorageProvider>;
 
-ProvidedElement = Make(<Login a={10} />);
+// ProvidedElement = Make(<Login a={10} />);
 
 export default ProvidedElement;
