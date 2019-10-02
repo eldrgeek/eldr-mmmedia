@@ -8,11 +8,14 @@ import Register from "./src/Register";
 import Playback from "./src/Playback";
 import Login from "./src/Login";
 import Record from "./src/Record";
+// import Upload from ".src/Upload";
 import AppBar from "./src/Components/MMMAppBar";
 import Snackbar from "./src/Components/Snackbar";
 import { UserName } from "./src/Components/UserName";
 import StoreProvider from "../src/redux/storage";
 import useLocalStorage from "react-use-localstorage";
+import Cookie from "cookies-js";
+
 const useStyles = makeStyles(theme => ({
   margin: {
     margin: theme.spacing(1)
@@ -49,6 +52,8 @@ function MainApp() {
   return (
     <div className="App">
       <AppBar propthing="prop" changeForm={changeForm} />
+
+      {/* {"" + JSON.stringify(Cookie.get("peer"))} */}
 
       {Object.keys(pages).map((key, i) => {
         return <div> {key === form ? pages[key].component : ""} </div>;

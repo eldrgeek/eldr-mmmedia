@@ -5,6 +5,7 @@ to the database and to the relevant buckets
 import React from "react";
 import testData from "../TestData";
 import { Button } from "@material-ui/core";
+import VideoTimer from "../VideoTimer";
 import {
   addSeconds,
   addMinutes,
@@ -92,11 +93,23 @@ const addToBucket = async (clip, diag) => {
   }
 };
 let tried = false;
-
+let index = 0;
 export default () => {
   const [status, setStatus] = React.useState("no state");
+  const [url, setURL] = React.useState(undefined);
+  const returnResult = (result, newURL) => {
+    console.log("returned ", result);
+    index++;
+    console.log(index, testData[index].url);
+    setURL(testData[index].url);
+  };
 
-  const add = () => console.log("addint", JSON.stringify(testData));
+  const add = () => {
+    index = 0;
+    console.log(testData[0].url);
+    setURL(testData[0].url);
+  };
+  // console.log("addint", JSON.stringify(testData));
   // addToBucket(
   //   {
   //     time: new Date(2018, 1, 1, 1, 0, 10),
@@ -131,10 +144,14 @@ export default () => {
   };
   return (
     <React.Fragment>
-      trst
       {displayStatus(status)}
       <Button onClick={get}>Get</Button>
       <Button onClick={add}>Add</Button>
+      {url === undefined ? (
+        ""
+      ) : (
+        <VideoTimer key={url} url={url} returnResult={returnResult} />
+      )}
     </React.Fragment>
   );
 };
@@ -188,4 +205,5 @@ const getClipsForTime = async (refTime, diag) => {
     resolvedClips.map(clip => JSON.stringify(clip.data()))
   );
 };
-export { addToBucket, getClipsForBucket };
+
+export { addToBucket, getClipsForBucket, getClipsForTime };

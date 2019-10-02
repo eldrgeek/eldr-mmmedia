@@ -1,3 +1,22 @@
+/*VideoTImer discovers the amount of time that it
+takes for a video. Invocation:
+<VideoTimer >
+  url={URL to time},
+  returnResult={callback to get the result}
+</VideoTimer>
+
+
+The callback rountine returnResult has the signature
+  returnResult = (result, setURL) =>
+
+The result has the form:
+{playable:false} or
+{playable: true, duration:<duration in seconds}
+
+setURL lets you set a new URL after the result is obtained
+
+*/
+
 import React from "react";
 import ReactPlayer from "react-player";
 import { formatRelativeWithOptions } from "date-fns/esm/fp";
@@ -6,12 +25,19 @@ const Player = p => {
   const props = {
     returnResult: r => console.log("result", r),
     url: "https://www.youtube.com/watch?v=Vr6NgrB-zHw",
-    checkTime: false,
+    checkTime: true,
     diag: formatRelativeWithOptions,
     ...p
   };
+
   const [playing, setPlaying] = React.useState(true);
   const [result, setResult] = React.useState({});
+  const [theURL, settheURL] = React.useState(props.url);
+  const updateURL = url => {
+    console.log("updated url");
+    settheURL(url);
+  };
+
   //See if URL points to a valid site
   const { url, returnResult } = props;
   if (!props.checkTime) {
@@ -22,7 +48,7 @@ const Player = p => {
     }
   }
   if (!ReactPlayer.canPlay(url)) {
-    returnResult({ playable: false });
+    returnResult({ playable: false }, updateURL);
     return JSON.stringify(result);
   }
   // if it points to a valid site then we need to play it
@@ -38,16 +64,15 @@ const Player = p => {
 
   //if the player is ready, seek
   const movePlayer = () => {
-    console.log("seeking");
     player.seekTo(FRACTION, "fraction");
   };
   const getProgress = p => {
-    console.log("isPlaying", playing);
+    // console.log("isPlaying", playing);
     setPlaying(false);
-    console.log("prpgress", p);
+    // console.log("prpgress", p);
     const progress = { playable: true, duration: p.playedSeconds / FRACTION };
     setResult(progress);
-    returnResult(progress);
+    returnResult(progress, updateURL);
   };
   const isError = () => {
     setPlaying(false);
@@ -58,8 +83,9 @@ const Player = p => {
       {props.diag ? "Result " + JSON.stringify(result) : ""}
       <div style={{ display: "none" }}>
         <ReactPlayer
+          key={theURL}
           ref={setRef}
-          url={url}
+          url={theURL}
           controls={true}
           onError={isError}
           onReady={movePlayer}
@@ -74,5 +100,25 @@ const Player = p => {
     </React.Fragment>
   );
 };
+//test framework
+// const props = {
+//   url: "https://www.youtube.com/watch?v=X1mp1j0ef8c",
+//   returnResult: (result, updateURL) => {
+//     console.log("RESULT IS ", result);
+//     if (props.url != url2) {
 
+//       props.url = url2
+//       updateURL(url2)
+//     }
+
+//   }
+// }
+// const Tester = (test) => {
+
+// return <Player {...props} >
+
+//   </Player>
+// }
+
+// const url2= "https://www.youtube.com/watch?v=Vr6NgrB-zHw"
 export default Player;
