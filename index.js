@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Log from "/src/utils/diag"
 import ReactDOM from "react-dom";
 import { Button } from "@material-ui/core";
 import { Typography } from "@material-ui/core";

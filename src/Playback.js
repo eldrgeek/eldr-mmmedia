@@ -7,10 +7,13 @@ import FormX from "./Components/FormX";
 import StorageProvider from "../src/redux/storage/index";
 import Snackbar from "./Components/Snackbar";
 import { makeAction } from "./redux/reducers";
-import { addToCollection } from "./FireStore";
+import { addToCollection } from "./Database/FireStore";
 import useLocalStorage from "react-use-localstorage";
 import ListX from "./Components/ListX";
+import { getClipsForTime } from "/src/Database/DatabaseFunctions";
 let clearRefs = () => console.log("old proc");
+const cl = console.log.bind(console);
+let diag = cl;
 const listProps = {
   height: 200,
   width: 300,
@@ -31,13 +34,16 @@ const listProps = {
 };
 
 const Playback = () => {
+  // diag("parent", )
   const fields = [{ name: "time", placeholder: "Time", type: "date" }];
-  const onClick = () => {};
+  const onClick = () => {
+    getClipsForTime(new Date(2018, 1, 1, 1, 0, 2));
+  };
   const record = {};
-
   return (
     <React.Fragment>
       {/* <Typography variant="h4">Playback Page</Typography>; */}
+      ref={e => console.log("ref", e.parent)}
       <FormX
         formTitle="Media time"
         fields={fields}

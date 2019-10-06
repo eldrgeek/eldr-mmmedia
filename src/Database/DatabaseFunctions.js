@@ -18,11 +18,14 @@ import {
   differenceInMinutes,
   isWithinInterval
 } from "date-fns";
-import { firebase, db, addToCollection } from "../FireStore";
+import { firebase, db, addToCollection } from "./FireStore";
+let cl = console.log.bind(console);
 
+/////////////////////////////////////////
 //given a DateTime, get the time of the hour
 //in which that time appears
 const getBucketStart = time => {
+  cl({ time });
   return new Date(getYear(time), getMonth(time), getDate(time), getHours(time));
 };
 
@@ -33,7 +36,7 @@ const composeBucketString = time => {
   )}`;
 };
 
-//given a clip,
+//given a clip, add it f
 const addToBucket = async (clip, diag) => {
   //adds references to document in the propoer time buckets
   const time = clip.time;
@@ -98,9 +101,9 @@ export default () => {
   const [status, setStatus] = React.useState("no state");
   const [url, setURL] = React.useState(undefined);
   const returnResult = (result, newURL) => {
-    console.log("returned ", result);
+    // console.log("returned ", result);
     index++;
-    console.log(index, testData[index].url);
+    // console.log(index, testData[index].url);
     setURL(testData[index].url);
   };
 
@@ -120,8 +123,9 @@ export default () => {
   //   setStatus
   // );
 
-  const get = () => getClipsForTime(new Date(2018, 1, 1, 1), setStatus);
-  if (!tried) setTimeout(get, 1100);
+  const get = async () => {
+    getClipsForTime(new Date(2018, 1, 1, 1, 0, 2), setStatus);
+  }; // if (!tried) setTimeout(get, 1100);
 
   tried = true;
   const displayStatus = status => {
@@ -157,6 +161,8 @@ export default () => {
 };
 
 const getClipsForBucket = async (time, diag) => {
+  if (!diag) diag = console.log.bind(console);
+  cl({ time });
   const bucketString = composeBucketString(getBucketStart(time));
   var docRef = db.collection("buckets").doc(bucketString);
   return new Promise((resolve, reject) => {
@@ -175,16 +181,20 @@ const getClipsForBucket = async (time, diag) => {
   });
 };
 const getClipsForTime = async (refTime, diag) => {
+  console.log(refTime);
   const clips = await getClipsForBucket(refTime, diag);
+  // console.log(clips);
   const qualifingClips = clips.map(clip => {
     return new Promise((resolve, reject) => {
+      console.log({ clip });
       clip.get().then(doc => {
+        cl({ doc });
         if (doc.exists) {
           // console.log("data", doc.data());
           const { time, duration } = doc.data();
           const timeDate = time.toDate();
-          // console.log({ refTime, timeDate, duration });
-          // console.log("addseconds", addSeconds(time.toDate(), duration));
+          console.log({ refTime, timeDate, duration });
+          console.log("addseconds", addSeconds(time.toDate(), duration));
           if (
             isWithinInterval(refTime, {
               start: timeDate,
@@ -204,6 +214,7 @@ const getClipsForTime = async (refTime, diag) => {
     "resolved list",
     resolvedClips.map(clip => JSON.stringify(clip.data()))
   );
+  return resolvedClips;
 };
 
 export { addToBucket, getClipsForBucket, getClipsForTime };
