@@ -1,5 +1,9 @@
-import React, { useState } from "react";
-import Log from "/src/utils/diag"
+import {
+  overmindComponent,
+  React,
+  useApp
+} from "./src/overmind/overmindComponent";
+import Log from "/src/utils/diag";
 import ReactDOM from "react-dom";
 import { Button } from "@material-ui/core";
 import { Typography } from "@material-ui/core";
@@ -28,16 +32,17 @@ const useStyles = makeStyles(theme => ({
 
 function MainApp() {
   const classes = useStyles();
+  const { state, actions } = useApp();
   const [form, setForm] = React.useState("");
-  const [user, setUser] = useLocalStorage(
-    "userName",
-    window.localStorage.getItem("userName") || "none"
-  );
+  // const [user, setUser] = useLocalStorage(
+  //   "userName",
+  //   window.localStorage.getItem("userName") || "none"
+  // );
 
   const changeForm = newForm => {
     if (form === newForm) {
       setForm("");
-      setUser(window.localStorage.getItem("userName") || "none");
+      // setUser(window.localStorage.getItem("userName") || "none");
     } else {
       setForm(newForm);
     }
@@ -82,5 +87,4 @@ const App = () => {
   );
 };
 
-const rootElement = document.getElementById("root");
-ReactDOM.render(<App />, rootElement);
+overmindComponent(App);

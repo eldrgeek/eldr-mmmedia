@@ -1,4 +1,9 @@
-import React from "react";
+import {
+  overmindComponent,
+  React,
+  useApp,
+  useComponentTest
+} from "../overmind/overmindComponent";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
@@ -81,23 +86,26 @@ MySnackbarContentWrapper.propTypes = {
 };
 
 const CustomizedSnackbars = p => {
-  let props = {
-    variant: "error",
-    message: "this is a test",
-    open: true,
-    timeout: 2000,
-    ...p
-  };
-  let { variant, message, timeout } = props;
-  const [open, setOpen] = React.useState(props.open);
-
+  const { state, actions } = useApp();
+  useComponentTest(
+    p,
+    [
+      () => actions.snackbar.show("error"),
+      () => actions.snackbar.show("info"),
+      () => actions.snackbar.show("warning"),
+      () => actions.snackbar.show("success")
+    ],
+    2500
+  );
+  // console.log(state.snackbar);
+  let { variant, message, timeout } = state.snackbar;
   function handleClose(event, reason) {
     if (reason === "clickaway") {
       return;
     }
-
-    setOpen(false);
+    actions.snackbar.close();
   }
+  // console.log("rendered");
 
   return (
     <div>
@@ -106,7 +114,7 @@ const CustomizedSnackbars = p => {
           vertical: "bottom",
           horizontal: "left"
         }}
-        open={open}
+        open={state.snackbar.open}
         autoHideDuration={timeout}
         onClose={handleClose}
       >
@@ -120,6 +128,4 @@ const CustomizedSnackbars = p => {
   );
 };
 
-export default props => {
-  return props.open ? <CustomizedSnackbars {...props} /> : "";
-};
+overmindComponent(CustomizedSnackbars);

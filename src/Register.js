@@ -1,11 +1,11 @@
 import React from "react";
 import FormX from "./Components/FormX";
 import Snackbar from "./Components/Snackbar";
-import { addToCollection } from "./FireStore";
+import { addToCollection } from "./Database/FireStore";
 import VideoTimer from "./VideoTimer";
 // import d, { getYear, getMonth, getDay, getHour } from "date-fns";
 import { getYear, getMonth, getDate, getHours } from "date-fns";
-
+//Example value: https://www.youtube.com/watch?v=JinkCAN6Bx0
 let clearRefs = () => console.log("old proc");
 export default function Register() {
   const [timing, setTiming] = React.useState(false);
@@ -58,11 +58,12 @@ export default function Register() {
     setCheckTime(false);
   };
   const onClick = refProc => {
+    console.log("Onclick");
     clearRefs = refProc;
     // console.log("refproc", refProc + "")
     setStatus("clicked");
     setCheckTime(true);
-    // record.url = "https://www.youtube.com/watch?v=Vr6NgrB-zHw";
+    record.url = "https://www.youtube.com/watch?v=Vr6NgrB-zHw";
     setOpen(true);
     setStatus(JSON.stringify(record));
   };

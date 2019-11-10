@@ -1,23 +1,14 @@
-import React from "react";
-import { connect } from "react-redux";
+import { overmindComponent, React, useApp } from "./overmind/overmindComponent";
 import FormX from "./Components/FormX";
-import StorageProvider from "../src/redux/storage/index";
 import Snackbar from "./Components/Snackbar";
-import { makeAction } from "/src/redux/reducers";
 import { addToCollection } from "/src/Database/FireStore";
-import useLocalStorage from "react-use-localstorage";
 import UserName from "./Components/UserName";
 
 let clearRefs = () => console.log("old proc");
 
-function LoginImpl(p) {
-  console.log("Props are ::", p);
+function Login(p) {
   const [snackbar, setSnackbar] = React.useState({ open: true });
   const [open, setOpen] = React.useState(false);
-  const [user, setUser] = useLocalStorage(
-    "userName",
-    window.localStorage.getItem("userName")
-  );
 
   const [record, setRecord] = React.useState({});
   const fields = [{ name: "user", placeholder: "User" }];
@@ -55,24 +46,10 @@ function LoginImpl(p) {
   );
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setUser: e => dispatch(makeAction("SET_USER", { name: e }))
-  };
-};
-export const Login = connect(
-  null,
-  mapDispatchToProps
-)(LoginImpl);
-
-let ProvidedElement = p => (
-  <StorageProvider>
-    <Login {...p} a={10} />
-  </StorageProvider>
-);
-
 // let Make = (e,props) => () => <StorageProvider >{e}</StorageProvider>;
 
 // ProvidedElement = Make(<Login a={10} />);
 
-export default ProvidedElement;
+export default Login;
+
+overmindComponent(Login);

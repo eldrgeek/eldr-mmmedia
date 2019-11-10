@@ -1,7 +1,7 @@
 import React from "react";
 import FormX from "./Components/FormX";
 import Snackbar from "./Components/Snackbar";
-import { addToCollection } from "./FireStore";
+import { addToCollection } from "./Database/FireStore";
 import VideoTimer from "./VideoTimer";
 // import d, { getYear, getMonth, getDay, getHour } from "date-fns";
 import { getYear, getMonth, getDate, getHours } from "date-fns";
