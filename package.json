@@ -12,7 +12,7 @@
     "babel-plugin-transform-dirname-filename": "1.1.0",
     "cookies-js": "1.2.3",
     "date-fns": "2.2.1",
-    "firebase": "6.6.2",
+    "firebase": "10.9.0",
     "overmind": "20.0.0",
     "overmind-react": "21.0.0",
     "page": "1.11.5",
